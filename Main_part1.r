@@ -488,6 +488,7 @@ ggsave("Figure1/Supplementary_Figure1_A-B_gene_cell_count.pdf", final, width = 8
 
 
 ##################################################################
+## Supplementary Figure 1 C&D Dimplot for sample and group
 p1 <- DimPlot(data,
     label = F, group.by = "orig.ident",
     cols = mycolor$sample, shuffle = T,
@@ -509,7 +510,7 @@ ggsave("Figure1/Supplementary_Figure1_C_D_umap_sample_group.pdf", final, width =
 
 
 ##################################################################
-##
+## Supplementary Figure 1E featureplot marker
 marker_gene <- c(
     "CD3D", "IL7R", "KLRD1", "KLRF1", "MS4A1",
     "CD79A", "JCHAIN", "MZB1", "LYZ", "FCN1"
