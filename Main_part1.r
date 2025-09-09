@@ -161,7 +161,7 @@ test.dist.table <- function(count.dist, min.rowSum = 0) {
     setDT(count.dist.tb, keep.rownames = T)
     count.dist.melt.tb <- melt(count.dist.tb, id.vars = "rn")
     colnames(count.dist.melt.tb) <- c("rid", "cid", "count")
-    count.dist.melt.ext.tb <- as.data.table(ldply(seq_len(nrow(count.dist.melt.tb)), function(i) { # nolint
+    count.dist.melt.ext.tb <- as.data.table(plyr::ldply(seq_len(nrow(count.dist.melt.tb)), function(i) { # nolint
         this.row <- count.dist.melt.tb$rid[i]
         this.col <- count.dist.melt.tb$cid[i]
         this.c <- count.dist.melt.tb$count[i]
