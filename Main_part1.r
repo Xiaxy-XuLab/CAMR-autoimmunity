@@ -95,7 +95,7 @@ dev.off()
 
 
 ##################################################################
-### p11 Ro/e
+### Figure 1E Major cluster Ro/e
 do.tissueDist <- function(cellInfo.tb = cellInfo.tb, # meta.data
                           meta.cluster = cellInfo.tb$meta.cluster, # 纵坐标，可以是不同的分群  # nolint
                           loc = cellInfo.tb$loc, # 不同的分组，可以是肿瘤，癌旁，正常等
