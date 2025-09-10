@@ -644,6 +644,7 @@ ggsave("Figure3/Figure_3E_highly_expressed_gene.pdf", p, width = 3.8, height = 2
 ##################################################################
 ## Figure 3D Fraction of myeloid in big blood data
 # 1) 计算各 group 内的比例
+anno_levels <- levels(t_pan$anno)
 meta_df <- as_tibble(mye_pan@meta.data) %>%
     select(group, anno) %>%
     mutate(
