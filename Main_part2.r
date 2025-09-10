@@ -46,7 +46,7 @@ read_deg <- function(path_points, path_bar, drop_cell = "m10_Neutrophil") {
     list(points = pts, bar = bar)
 }
 
-# 统一的圆环火山样式（保持你原样式不变）
+# 统一的圆环火山样式
 circle_plot <- function(points, bar, angle_vec,
                         fill_pal = mycolor$mye_type,
                         y_lim = c(-8, 4)) {
@@ -127,7 +127,7 @@ camr_hc <- read_deg(
     "input_file/bardata_hc_camr_deg.txt"
 )
 
-# ---- DEG count（保持原有排序/配色/坐标范围）----
+# ---- DEG count ----
 genes_of_interest <- c(
     "FOS", "DDIT4", "GNAS", "FOSB", "FKBP5", "TLR2",
     "SMAP2", "PER1", "JUND", "CXCR4", "JUN", "JDP2",
