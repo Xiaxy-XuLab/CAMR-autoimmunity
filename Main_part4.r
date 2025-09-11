@@ -36,6 +36,7 @@ load("input_file/color.RData")
 
 
 ##################################################################
+## Figure 5B HLA receptors analysis
 # 1) 基因集合
 receptor <- list(
     "HLA-dependent\ninhibitory receptors"   = c("KIR2DL1", "KIR2DL3", "KIR3DL1", "KIR3DL2", "LILRB1", "LAG3"), # nolint
