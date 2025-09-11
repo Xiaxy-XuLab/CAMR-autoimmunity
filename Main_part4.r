@@ -88,7 +88,7 @@ matr_t <- nkt_data@meta.data %>%
         values_to = "value"
     )
 
-# 5) 画图函数（保持你的样式完全一致）
+# 5) 画图函数
 draw <- function(xx, yy) {
     ggplot(xx, aes(x = anno2, y = value)) +
         geom_violin(aes(fill = anno2), scale = "width", color = "white") +
@@ -111,7 +111,7 @@ draw <- function(xx, yy) {
         )
 }
 
-# 6) 为每个面板配置 y 轴范围（与原代码一致，可复用）
+# 6) 为每个面板配置 y 轴范围
 ylims_map <- list(
     "HLA-dependent\ninhibitory receptors"   = c(-0.4, 0.8),
     "HLA-independent\ninhibitory receptors" = c(-0.4, 0.6),
@@ -144,7 +144,7 @@ ggsave("Figure5/Figure_5B_NK_hla.pdf", final, width = 7, height = 2)
 ##################################################################
 ## Figure 5D trajectory analysis for CD16+ NK
 ## monocle3 gene analysis
-# 1) ident 设置与差异分析（保持原调用）
+# 1) ident 设置与差异分析
 nkt_cd16@active.ident <- factor(nkt_cd16$group)
 marker <- FindAllMarkers(nkt_cd16, only.pos = TRUE, min.pct = 0.25)
 
@@ -172,7 +172,7 @@ mat <- FetchData(nkt_cd16, vars = vars_use) %>%
     ) %>%
     slice_sample(n = 1000, replace = FALSE)
 
-# 3) 通用的 loess 平滑图（保持你的样式/参数/配色）
+# 3) 通用的 loess 平滑图
 smooth_panel <- function(df, yvar) {
     ggplot(df, aes(x = pse, y = .data[[yvar]])) +
         geom_smooth(method = "loess", se = TRUE, level = 0.5, color = "#4C7FB2") + # nolint
@@ -189,12 +189,12 @@ smooth_panel <- function(df, yvar) {
         )
 }
 
-# 4) 三个单基因面板（与你原来的 p1/p2/p4 对应）
+# 4) 三个单基因面板
 p1 <- smooth_panel(mat, "cxcr4")
 p2 <- smooth_panel(mat, "ppp3ca")
 p4 <- smooth_panel(mat, "zeb2")
 
-# 5) 多基因叠加面板（JUN/JUNB/JUND/FOS/FOSB），保持原样式
+# 5) 多基因叠加面板（JUN/JUNB/JUND/FOS/FOSB）
 mt <- mat %>%
     select(pse, jun, junb, jund, fos, fosb) %>%
     pivot_longer(-pse, names_to = "variable", values_to = "value")
@@ -214,7 +214,7 @@ p5 <- ggplot(mt, aes(x = pse, y = value, color = variable)) +
         strip.background  = element_rect(fill = NA, color = "white")
     )
 
-# 6) 拼图与保存（布局与尺寸保持）
+# 6) 拼图与保存
 final <- p1 + p2 + p4 + p5 + plot_layout(nrow = 2)
 ggsave("Figure5/Figure_5D_marker_nk_pse.pdf", final, width = 5.6, height = 5)
 ##################################################################
@@ -255,14 +255,14 @@ col_map <- setNames(
     present_lvls
 )
 
-# —— 4) 绘图（保持你的样式：base plot + lines）——
+# —— 4) 绘图 ——
 pdf("Figure5/Figure_5C_trace.pdf", height = 15, width = 15)
 on.exit(dev.off(), add = TRUE)
 
 umap_mat <- reducedDim(sim, "UMAP") # 等价于 reducedDims(sim)$UMAP
 grp_vec <- as.character(colData(sim)$group)
 
-# 点图（与原参数一致：pch = 16，asp = 1.4）
+# 点图
 plot(
     umap_mat,
     col = col_map[grp_vec],
@@ -271,7 +271,7 @@ plot(
     xlab = "UMAP_1",
     ylab = "UMAP_2"
 )
-# 轨迹（与原样式一致）
+# 轨迹
 lines(SlingshotDataSet(sim), lwd = 8, type = "lineages", col = "black")
 ##################################################################
 
@@ -367,7 +367,7 @@ mgg <- mat %>%
     select(Category, Type, Proportion, SE) %>%
     arrange(Category, Type)
 
-# 5) 画图（保持你的风格）
+# 5) 画图
 pdf("Figure5/Figure_5F_nk_se.pdf", width = 3.5, height = 2)
 ggplot(mgg, aes(x = Category, y = Proportion, color = Type, group = Type)) +
     geom_line() +
@@ -400,7 +400,7 @@ marker <- FindAllMarkers(nkt_sub, only.pos = TRUE, min.pct = 0.25) %>%
 set.seed(2024)
 nkt_sub <- subset(nkt_sub, downsample = 1000)
 
-# 3) 目标标签（与你一致），并确保基因存在于对象中
+# 3) 目标标签，并确保基因存在于对象中
 label <- c(
     "FGFBP2", "CX3CR1", "FCGR3A", "GZMH", "GZMB", "CCL4", "ZEB2",
     "PRF1", "GZMA", "GZMM", "CCL5", "GZMK", "SELL", "XCL1", "CD74", "NCAM1" # nolint
@@ -416,7 +416,7 @@ genes_use <- marker %>%
 #    注意：cluster_row = FALSE → 行顺序就是 genes_use 的顺序
 label_idx <- match(label, genes_use) %>% na.omit()
 
-# 6) 出图（样式、配色、参数与你完全一致）
+# 6) 出图
 ht <- dittoHeatmap(
     nkt_sub,
     genes = genes_use, # 你准备好的基因向量
@@ -563,7 +563,7 @@ mat <- tibble(
     arrange(value) %>%
     mutate(rank = row_number())
 
-# 5) 画图（保持你的主题与配色；改用 annotate 避免继承映射）
+# 5) 画图
 p <- ggplot(mat, aes(x = rank, y = value)) +
     annotate("rect",
         xmin = 30, xmax = 47, ymin = 0, ymax = 0.14,
